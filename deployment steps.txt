@@ -1,0 +1,77 @@
+##### DJANGO APP DEPLOYMENT ######
+
+1. create a venv
+2. pip3 install -r requirements.txt
+3. pip3 install gunicorn #if not present in requirements.txt
+4. sudo apt-get install nginx or any web server
+
+### What gunicorn does ####
+gunicorn simply links the application to the web server(nginx or apache) using unix sockets
+################
+** Testing gunicorn
+gunicorn --bind 0.0.0.0:8000 djangoprojectfolder.wsgi:application 
+# The djangoprojectfolder holds the settings.py, wsgi.py files etc.
+
+########## SUPERVISOR ######################################
+
+5. sudo apt-get install -y supervisor 
+### what supervisor does ###
+**Ensuring gunicorn stays working after we close our os terminal or cmd, we install supervisor
+### configure gunicorn in supervisor
+cd /etc/supervisor/conf.d/
+sudo touch gunicorn.conf
+sudo nano gunicorn.conf
+
+### gunicorn conf details
+[program:gunicorn]
+direcotry=/home/ubuntu/folder     #-folder, folder housing django app and settings
+command = /home/ubuntu/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/folder/app.sock
+autostart=true
+autorestart=true
+stderr_logfile=/var/log/gunicorn/gunicorn.err.log
+stdout_logfile=/var/log/gunicorn/gunicorn.out.log
+
+[group:guni]
+programs:gunicorn
+
+### Save gunicron conf details ctrl-o, enter and exit ctrl-x
+### sudo mkdir /var/log/gunicorn/ where logs will be saved
+
+Then run the following:
+** sudo supervisorctl reread
+** sudo supervisorctl update
+** sudo supervisorctl status
+## if everything goes well we should see RUNNING pid ****, uptime 0:00:0*
+
+############# NGINX #####################################
+
+#### Configure nginx to communicate with unix socket configured in supervisor (gunicorn.conf)
+navigate to root
+cd 
+cd /etc/nginx/sites-available/
+### create a django.conf file 
+** sudo touch django.conf
+** sudo nano django.conf
+
+### django conf details
+server {
+    listen 80;
+    server_name EC2 public DNS
+
+    location / {
+        include proxy_params;
+        proxy_pass http://unix:/home/ubuntu/folder/app.sock;
+
+    }
+}
+
+### Save django conf details ctrl-o, enter and exit ctrl-x
+Then run the following:
+** sudo nginx -t
+## Link django conf with niginx
+** sudo ln django.conf /etc/nginx/sites-enabled/
+## restart nginx
+** sudo service nginx restart
+
+
+

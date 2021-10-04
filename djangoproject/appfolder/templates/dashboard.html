@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="dashboard.css">
+  <style>
+    ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+#rec {
+  display: block;
+  float: left;
+}
+
+#chat{
+  display: block;
+  float: left;
+}
+
+#hist {
+  display: block;
+  float: left;
+}
+
+#logout {
+  display: block;
+  float: right;
+}
+
+a {
+  display: block;
+  color: white;
+  padding: 14px 16px;
+  /* background-color: #dddddd; */
+  text-align: center;
+  text-decoration: none;
+}
+
+body {
+  font-family: "Tahoma", sans-serif;
+  background-color: #344a72;
+  /* /* background: linear-gradient(0deg, #adc7ff, #adc7ff); */
+  color: white;
+  /* line-height: 1.8; */
+}
+
+.container {
+  border: 2px white solid;
+  text-align: center;
+}
+.container h1 {
+  text-align: left;
+}
+
+  </style>
+</head>
+<body>
+  
+  <div id="nav">
+    <ul>
+      <li><a href="/record/" id="rec"> Record</a></li>
+      <li><a href="/chat/" id="chat"> Chat</a></li>
+      <li><a href="/history/" id="hist">Check History</a></li>
+      <li><a href="/logout/" id="logout">Log Out</a></li>
+    </ul>
+  </div>
+  <div class="container">
+    <div id="business-name">
+      <h1>{{ Business_Name }}</h1>
+    </div>
+    <div id="trans">
+      <h2>Business Value: {{ Business_value }}</h2>
+      <h3>Total Income: {{ Income }}</h3>
+      <h3>Total Expense: {{ Expense }}</h3>
+    </div>
+  </div>
+  
+</body>
+</html>

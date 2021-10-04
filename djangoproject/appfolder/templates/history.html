@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>History</title>
+  <link rel="stylesheet" href="history.css">
+  <style>
+    .nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+/* li {
+  display: block;
+  float: left;
+} */
+#rec {
+  display: block;
+  float: left;
+}
+
+#chat{
+  display: block;
+  float: left;
+}
+
+#dash {
+  display: block;
+  float: left;
+}
+
+#logout {
+  display: block;
+  float: right;
+}
+
+a {
+  display: block;
+  color: white;
+  padding: 14px 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
+table,
+th,
+td {
+  border: 2px solid black;
+  /* width: 100%; */
+  text-align: center;
+
+}
+
+#container {
+  margin: 30px auto;
+  max-width: 450px;
+  /* padding: 20px; */
+  /* height: 1000px; */
+}
+
+#container #hist h3 {
+  text-align: center;
+}
+
+body {
+  font-family: "Tahoma", sans-serif;
+}
+#histnav li {
+  float: left;
+  display: inline;
+}
+/* #daterange {
+  float: left;
+  display: inline;
+} */
+.NoRec {
+  text-align: center;
+}
+
+  </style>
+</head>
+<body>
+  <div>
+    <ul class=nav>
+      <li><a href="/dashboard/" id="dash"> Dashboard</a></li>
+      <li><a href="/record/" id="rec"> Record</a></li>
+      <li><a href="/chat/" id="chat"> Chat</a></li>
+      <li><a href="/logout/" id="logout">Log Out</a></li>
+    </ul>
+  </div>
+  
+  <div id="container">
+    <div id=daterange>
+      <hr>
+        <form action="/histbydate/" method="POST">
+          {% csrf_token %}
+
+          From: <input type="date" name="startdate" required/>
+          To: <input type="date" name="enddate" required/>
+          <input type="submit" value="Search"/>
+
+        </form>
+      </hr>
+
+    </div>
+    <div id="histnav">
+      <ul>
+        <li><a href="/history/"><button>All Transaction</button></a></li>
+        <li><a href="/income/"><button>Income</button></a></li>
+        <li><a href="/expense/"><button>Expense</button></a></li>
+      </ul>
+    </div>
+
+    <div id="hist">
+      <h3> Transaction History </h3>
+    </div>
+    
+    <div id="table">
+      {% if hist %}
+      <table>
+        <thead>
+          <th>Item</th> 
+          <th>Quantity</th>
+          <th>Amount</th>
+          <th>Trans_type</th>
+          <th>Transaction DateTime</th>
+        </thead>
+        
+        <!-- {% for data in hist %}
+        <tr>
+          <td>{{ data.item }}</td>
+          <td>{{ data.qty }}</td>
+          <td>{{ data.amount }}</td>
+          <td>{{ data.trans_type }}</td>
+          <td>{{ data.trans_date }}</td>
+        </tr>
+        {% endfor %} -->
+        {% for data in hist %}
+        <tr>
+          <td>{{ data.fields.item }}</td>
+          <td>{{ data.fields.qty }}</td>
+          <td>{{ data.fields.amount }}</td>
+          <td>{{ data.fields.trans_type }}</td>
+          <td>{{ data.fields.trans_date }}</td>
+        </tr>
+        {% endfor %}
+
+      </table>
+      {% else %}
+      <div class="NoRec">
+        <p>{{ result }}</p>
+      </div>
+      
+      {% endif %}
+  
+    </div>
+  </div>
+  
+
+</body>
+</html>

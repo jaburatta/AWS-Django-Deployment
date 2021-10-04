@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Record</title>
+    <link rel="stylesheet" href="record.css">
+    <style>
+        ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: #333;
+}
+
+/* li {
+  display: block;
+  float: left;
+} */
+
+#dash {
+  display: block;
+  float: left;
+}
+
+#chat{
+  display: block;
+  float: left;
+}
+
+#hist {
+  display: block;
+  float: left;
+}
+
+#logout {
+  display: block;
+  float: right;
+}
+
+a {
+  display: block;
+  color: white;
+  padding: 14px 16px;
+  text-align: center;
+  text-decoration: none;
+}
+
+body {
+  font-family: "Tahoma", sans-serif;
+  background-color: #344a72;
+  color: white;
+}
+
+textarea {
+  width: 300px;
+  display: inline-block;
+  padding: 0;
+}
+#start-btn {
+  color: white;
+  background-color: darkred;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 80px;
+  border-radius: 5px;
+  border: 0;
+  cursor: pointer;
+}
+
+#save-btn {
+  color: white;
+  background-color: green;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 80px;
+  border-radius: 5px;
+  border: 0;
+  cursor: pointer;
+}
+
+#container {
+  margin: 50px auto;
+  max-width: 400px;
+  padding: 20px;
+  height: 1000px;
+}
+
+    </style>
+</head>
+<body>
+    <div>
+        <ul>
+          <li><a href="/dashboard/" id="dash"> Dashboard</a></li>
+          <li><a href="/chat/" id="chat"> Chat</a></li>
+          <li><a href="/history/" id="hist">Check History</a></li>
+          <li><a href="/logout/" id="logout">Log Out</a></li>
+        </ul>
+    </div>
+    <br>
+    <div id="container">
+        <div>
+            <button id="start-btn">Record</button>
+        </div>
+        <br>
+        <div class="words" contenteditable>
+            
+            <form action="" method="POST">
+                <textarea name="data" id="trans" cols="40" rows="5"></textarea>
+                <br>
+                <button type="submit" id="save-btn">Save</button>
+                <br>
+                {{ result }}
+            </form>
+        </div>
+    </div>
+    
+</body>
+<script>
+var speech = true;
+window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+
+const recognition = new SpeechRecognition();
+
+recognition.interimResults = true;
+
+// const words = document.querySelector('.words');
+
+// words.appendChild(trans);
+
+recognition.addEventListener('result', e => {
+    const transcript = Array.from(e.results)
+    .map(result => result[0])
+    .map(result => result.transcript)
+    .join('')
+
+    // document.getElementById("p").innerHTML = transcript;
+    document.getElementById("trans").innerHTML = transcript;
+
+});
+
+document.querySelector("#start-btn").addEventListener('click', function(){
+    if(speech = true){
+        recognition.start()
+        // recognition.addEventListener('end', recognition.start)
+    };
+
+});
+
+// if(speech = true){
+//         recognition.start()
+//         // recognition.addEventListener('end', recognition.start)
+// };
+
+</script>
+</html>
