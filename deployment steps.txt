@@ -25,7 +25,7 @@ sudo nano gunicorn.conf
 ### gunicorn conf details
 [program:gunicorn]
 direcotry=/home/ubuntu/folder     #-folder, folder housing django app and settings
-command = /home/ubuntu/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/folder/app.sock
+command = /home/ubuntu/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/folder/app.sock projectfolder.wsgi:application
 autostart=true
 autorestart=true
 stderr_logfile=/var/log/gunicorn/gunicorn.err.log
